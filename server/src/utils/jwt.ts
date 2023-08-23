@@ -14,6 +14,7 @@ export const verifyJwt = <T>(token: string, key: 'accessTokenPublicKey' | 'refre
     const publicKey = Buffer.from(config.get<string>(key), 'base64').toString('ascii');
     return jwt.verify(token, publicKey) as T;
   } catch (err) {
+    console.log('err', err);
     return null;
   }
 };

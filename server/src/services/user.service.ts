@@ -35,7 +35,7 @@ export const signToken = async (user: DocumentType<User>) => {
   });
 
   redisClient.set(user._id.toString(), JSON.stringify(user), {
-    EX: 60,
+    EX: 60 * 60,
   });
 
   return {

@@ -34,7 +34,7 @@ export const registerHandler = async (req: Request<object, object, CreateUserInp
   } catch (err: any) {
     if (err.code === 11000) {
       return res.status(409).json({
-        status: 'fail',
+        status: 'failed',
         message: 'Email already exist',
       });
     }
@@ -54,8 +54,8 @@ export const loginHandler = async (req: Request<object, object, LoginUserInput>,
       return next(new AppError('User or password invalid', 401));
     }
     const { accessToken, refreshToken } = await signToken(user);
-    res.cookie('accessToken', accessToken, accessTokenCookieOptions);
-    res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions);
+    res.cookie('access_token', accessToken, accessTokenCookieOptions);
+    res.cookie('refresh_token', refreshToken, refreshTokenCookieOptions);
     res.cookie('logged_in', true, {
       ...accessTokenCookieOptions,
       httpOnly: false,
@@ -81,12 +81,14 @@ const logout = (res: Response) => {
 export const logoutHandler = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = res.locals.user;
-    await redisClient.del(user._id);
+    console.log('user logout', user._id);
+    await redisClient.del(user._id.toString());
     logout(res);
     return res.status(200).json({
       status: 'success',
     });
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };
@@ -99,12 +101,12 @@ export const refreshTokenHandler = async (req: Request, res: Response, next: Nex
     const message = 'Could not refresh access token';
 
     if (!decoded) {
-      return next(new AppError(message, 403));
+      return next(new AppError(message + 'decode', 403));
     }
 
     const session = await redisClient.get(decoded.sub);
     if (!session) {
-      return next(new AppError(message, 403));
+      return next(new AppError(message + 'session', 403));
     }
 
     const user = await findUserById(JSON.parse(session)._id);
@@ -116,7 +118,7 @@ export const refreshTokenHandler = async (req: Request, res: Response, next: Nex
       expiresIn: `${config.get('accessTokenExpiresIn')}m`,
     });
 
-    res.cookie('access_token', access_token);
+    res.cookie('access_token', access_token, { ...accessTokenCookieOptions });
     res.cookie('loged_in', true, {
       ...accessTokenCookieOptions,
       httpOnly: false,

@@ -6,12 +6,7 @@ import { findUserById } from '../services/user.service';
 
 export const deserializeUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    let access_token;
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-      access_token = req.headers.authorization.split(' ')[1];
-    } else if (req.headers.access_token) {
-      access_token = req.headers.access_token;
-    }
+    const access_token = req.cookies.access_token;
 
     if (!access_token) {
       return next(new AppError('You are not loged in', 401));

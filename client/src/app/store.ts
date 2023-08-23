@@ -1,9 +1,23 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit"
-import counterReducer from "../features/counter/counterSlice"
+import authReducer from "../features/users/authSlice"
+import { apiSlice } from "../features/apiSlice"
+import { authApi } from "../features/users/authAPI"
+import userAPI from "../features/users/userAPI"
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    [apiSlice.reducerPath]: apiSlice.reducer,
+    [authApi.reducerPath]: authApi.reducer,
+    [userAPI.reducerPath]: userAPI.reducer,
+    auth: authReducer,
+  },
+  devTools: import.meta.env.NODE_ENV !== "production",
+  middleware(getDefaultMiddleware) {
+    return getDefaultMiddleware().concat([
+      apiSlice.middleware,
+      authApi.middleware,
+      userAPI.middleware,
+    ])
   },
 })
 
