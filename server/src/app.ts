@@ -4,17 +4,20 @@ import express, { Request, Response, NextFunction } from 'express';
 import config from 'config';
 import morgan from 'morgan';
 import cors from 'cors';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import connectDB from './utils/connectDB';
 import userRouter from './routes/user.route';
 import authRouter from './routes/auth.route';
-import cookieParser from 'cookie-parser';
+import mediaRouter from './routes/media.route';
 
 const app = express();
 
 // Middlewares
 
 // 1. Body Parser
-app.use(express.json({ limit: '10kb' }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // 2. Cookie Parser
 app.use(cookieParser());
@@ -31,8 +34,9 @@ app.use(
 );
 
 // 5. Routes
-app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/users', userRouter);
+app.use('/api/media', mediaRouter);
 
 // Testing
 app.get('/healthChecker', (req: Request, res: Response) => {

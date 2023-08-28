@@ -1,8 +1,6 @@
 import React from "react"
-import { useGetProfileQuery } from "../features/users/userAPI"
 import { Navigate, Outlet, useLocation } from "react-router-dom"
 import { useCookies } from "react-cookie"
-import { skipToken } from "@reduxjs/toolkit/query"
 import { useAppSelector } from "../app/hooks"
 import { getCurrentUser } from "../features/users/authSlice"
 

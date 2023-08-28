@@ -1,6 +1,5 @@
 import { getModelForClass, index, modelOptions, pre, prop } from '@typegoose/typegoose';
 import bcrypt from 'bcryptjs';
-
 @index({ email: 1 })
 @pre<User>('save', async function () {
   if (!this.isModified('password')) return;
