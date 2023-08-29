@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react"
-import { baseQuery, baseQueryWithReAuth } from "../apiSlice"
-import authSlice, { IUser, logout } from "./authSlice"
+import { baseQueryWithReAuth } from "../apiSlice"
+import { IUser, logout } from "./authSlice"
 import { RegisterInputType } from "../../pages/Register.page"
 import { LoginInputType } from "../../pages/Login.page"
 import userAPI from "./userAPI"

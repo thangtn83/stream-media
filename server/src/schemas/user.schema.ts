@@ -13,7 +13,7 @@ export const createUserSchema = object({
     })
       .min(6, 'Password must be more than 6 character')
       .max(32, 'Password must be less than 32 character'),
-    passwordConfirm: string({ required_error: 'Please confirm your password' }).refine((data) => data.password === data.passwordConfirm, {
+    passwordConfirm: string({ required_error: 'Please confirm your password' }).refine((data: any) => data.password === data.passwordConfirm, {
       path: ['passwordConfirm'],
       message: 'Password do not match',
     }),

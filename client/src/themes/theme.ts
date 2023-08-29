@@ -62,11 +62,18 @@ export const lightTheme: ThemeOptions = createTheme({
         },
       },
       styleOverrides: {
-        root: ({ theme }) => ({
+        root: ({ ownerState, theme }) => ({
           boxShadow: "none",
-          backgroundColor: theme.palette.background.paper,
           borderRadius: theme.spacing(0.5),
-          padding: theme.spacing(0.5, 1),
+
+          "& :where(input, textarea)": {
+            backgroundColor: theme.palette.background.paper,
+            padding: theme.spacing(0.5, 1),
+            ...(ownerState.error && {
+              border: `1px solid ${theme.palette.error.main}`,
+            }),
+            // border:  `${theme.palette.error.main} 1px solid`,
+          },
         }),
       },
     },

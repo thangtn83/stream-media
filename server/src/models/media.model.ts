@@ -1,5 +1,6 @@
 import { Ref, getModelForClass, prop, modelOptions } from '@typegoose/typegoose';
 import { User } from './user.model';
+import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 
 @modelOptions({
   schemaOptions: {
@@ -8,7 +9,7 @@ import { User } from './user.model';
 })
 export class Media {
   @prop({ required: true, trim: true })
-  public name: string;
+  public title: string;
 
   @prop({ trim: true })
   public description: string;
@@ -20,13 +21,31 @@ export class Media {
   };
 
   @prop({})
-  genre: string;
+  genre: string[];
+
+  @prop()
+  actors: string[];
+
+  @prop()
+  director: string;
 
   @prop({ ref: 'User' })
   postedBy: Ref<User>;
 
   @prop()
-  views: string;
+  views: number;
+
+  @prop()
+  runTime: number;
+
+  @prop()
+  released: TimeStamps;
+
+  @prop()
+  ratings: {
+    source: string;
+    value: string;
+  }[];
 }
 
 const mediaModel = getModelForClass(Media);

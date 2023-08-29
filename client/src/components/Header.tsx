@@ -1,5 +1,6 @@
 import React from "react"
 import { Box, Button, Container, styled } from "@mui/material"
+import { useCookies } from "react-cookie"
 import { Link } from "react-router-dom"
 import { Flex } from "../styled"
 import { useAppSelector } from "../app/hooks"
@@ -12,6 +13,7 @@ const HeaderContainer = styled(Container)(({ theme }) => ({
 
 const Header = () => {
   const isAuthentication = useAppSelector(getCurrentUser) !== null
+  const [{ loged_in }] = useCookies(["loged_in"])
   const [logout] = useLogoutMutation()
   const logoutHandler = async () => {
     try {
@@ -20,6 +22,8 @@ const Header = () => {
       console.log(err)
     }
   }
+  console.log(loged_in)
+  console.log(isAuthentication)
 
   return (
     <Box>
@@ -27,7 +31,7 @@ const Header = () => {
         <Flex>
           <Box sx={{ mr: "auto" }}>MERN</Box>
           <Box>
-            {isAuthentication ? (
+            {isAuthentication || loged_in ? (
               <Button onClick={logoutHandler}>Logout</Button>
             ) : (
               <Flex>

@@ -2,7 +2,7 @@ import { TypeOf, object, string } from 'zod';
 
 export const createMediaSchema = object({
   body: object({
-    name: string({
+    title: string({
       required_error: 'Name is required',
     }),
     description: string({

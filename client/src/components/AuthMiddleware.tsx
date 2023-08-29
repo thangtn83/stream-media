@@ -1,7 +1,8 @@
 import React from "react"
-import { useGetProfileQuery } from "../features/users/userAPI"
 import { Outlet } from "react-router-dom"
 import FullScreenLoading from "./FullScreenLoading"
+import { useGetProfileQuery } from "../features/users/userAPI"
+
 const AuthMiddleware = () => {
   const { isLoading, isFetching } = useGetProfileQuery()
 

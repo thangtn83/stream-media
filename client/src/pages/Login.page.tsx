@@ -12,6 +12,9 @@ import {
 import { AuthContainer, Flex } from "../styled"
 
 import { useLoginMutation } from "../features/users/authAPI"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { LoginSchemaType, LoginSchema } from "../schemas/login.schema"
 
 export type LoginInputType = {
   email: string
@@ -19,13 +22,15 @@ export type LoginInputType = {
 }
 
 const Login = () => {
-  const [loginInput, setLoginInput] = useState<LoginInputType>({
-    email: "",
-    password: "",
-  })
   const location = useLocation()
   const navigate = useNavigate()
   const from = ((location.state as any)?.from.pathname as string) || "/"
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginSchemaType>({ resolver: zodResolver(LoginSchema) })
 
   const [login, { isLoading, isSuccess }] = useLoginMutation()
 
@@ -37,16 +42,10 @@ const Login = () => {
     }
   }, [isLoading])
 
-  const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setLoginInput({
-      ...loginInput,
-      [e.target.name]: e.target.value,
-    })
-  }
-  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const submit: SubmitHandler<LoginInputType> = async (data, e) => {
+    e?.preventDefault()
     try {
-      await login(loginInput)
+      await login(data)
     } catch (err) {
       console.log(err)
     }
@@ -71,17 +70,19 @@ const Login = () => {
               <Link to="/register">Create an account</Link>
             </Typography>
           </Typography>
-          <Box component="form" width="100%" onSubmit={submitHandler}>
+          <Box component="form" width="100%" onSubmit={handleSubmit(submit)}>
             <TextField
+              {...register("email")}
               placeholder="Email"
+              error={!!errors?.email}
+              helperText={errors.email && errors.email.message}
               sx={{ mb: 2 }}
-              name="email"
-              onChange={inputChangeHandler}
             />
             <TextField
+              {...register("password")}
               placeholder="Password"
-              name="password"
-              onChange={inputChangeHandler}
+              error={!!errors?.password}
+              helperText={errors.password && errors.password.message}
             />
             <Flex justifyContent="space-between" alignItems="center" my={2}>
               <FormGroup>
