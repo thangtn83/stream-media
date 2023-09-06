@@ -7,8 +7,13 @@ import { useAppSelector } from "../app/hooks"
 import { getCurrentUser } from "../features/users/authSlice"
 import { useLogoutMutation } from "../features/users/authAPI"
 
-const HeaderContainer = styled(Container)(({ theme }) => ({
+const HeaderContainer = styled("header")(({ theme }) => ({
   padding: theme.spacing(3, 10),
+  position: "fixed",
+  width: "100%",
+  top: 0,
+  left: 0,
+  zIndex: 999,
 }))
 
 const Header = () => {
@@ -22,8 +27,6 @@ const Header = () => {
       console.log(err)
     }
   }
-  console.log(loged_in)
-  console.log(isAuthentication)
 
   return (
     <Box>

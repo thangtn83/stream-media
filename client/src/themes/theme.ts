@@ -72,7 +72,6 @@ export const lightTheme: ThemeOptions = createTheme({
             ...(ownerState.error && {
               border: `1px solid ${theme.palette.error.main}`,
             }),
-            // border:  `${theme.palette.error.main} 1px solid`,
           },
         }),
       },
@@ -82,5 +81,3 @@ export const lightTheme: ThemeOptions = createTheme({
 
 export const getDesignTokens = (mode: PaletteMode): ThemeOptions =>
   mode === "light" ? lightTheme : darkTheme
-
-export default { darkTheme, lightTheme, getDesignTokens }

@@ -69,6 +69,13 @@ export const mediaById = async (req: MediaRequest, res: Response, next: NextFunc
   }
 };
 
+export const read = async (req: MediaRequest, res: Response, next: NextFunction) => {
+  res.status(200).json({
+    status: 'success',
+    data: req.media,
+  });
+};
+
 export const video = async (req: MediaRequest, res: Response, next: NextFunction) => {
   if (!req.file) return next(new AppError('File not found', 404));
   const range = req.headers['range'];
@@ -113,5 +120,3 @@ export const video = async (req: MediaRequest, res: Response, next: NextFunction
     });
   }
 };
-
-export const thumbnail = async (req: Request, res: Response, next: NextFunction) => {};

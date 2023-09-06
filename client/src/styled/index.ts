@@ -1,9 +1,12 @@
 import { Box, Container, styled } from "@mui/material"
 
-export const Flex = styled(Box)(({ theme }) => ({
-  background: theme.palette.background.default,
+export const Flex = styled(Box)({
   display: "flex",
-}))
+})
+export const FlexCenter = styled(Flex)({
+  alignItems: "center",
+  justifyContent: "center",
+})
 
 export const AuthContainer = styled(Container)(({ theme }) => ({
   display: "flex",

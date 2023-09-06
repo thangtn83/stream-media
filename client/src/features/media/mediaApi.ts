@@ -23,9 +23,18 @@ const mediaApi = createApi({
         credentials: "include",
       }),
     }),
+
+    getMedia: build.query<MediaType, string>({
+      query: (id) => ({
+        url: `/media/${id}`,
+        method: "GET",
+      }),
+      transformResponse: (res: { data: MediaType }) => res.data,
+    }),
   }),
 })
 
-export const { useCreateMediaMutation, useListMediaQuery } = mediaApi
+export const { useCreateMediaMutation, useListMediaQuery, useGetMediaQuery } =
+  mediaApi
 
 export default mediaApi

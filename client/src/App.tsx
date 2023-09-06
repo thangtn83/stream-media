@@ -8,6 +8,8 @@ import { getDesignTokens } from "./themes/theme"
 import "./App.css"
 import AuthMiddleware from "./components/AuthMiddleware"
 import UploadMedia from "./pages/UploadMedia.page"
+import PlayVideo from "./pages/Media.page"
+import Media from "./pages/Media.page"
 
 function App() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)")
@@ -18,8 +20,10 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route element={<AuthMiddleware />}>
             <Route index element={<Home />} />
+            <Route path="/media/:mediaId" element={<Media />} />
             <Route element={<ProtectedRoute allowedRoles={["user"]} />}>
               <Route path="/profile" element={<Profile />} />
+              Ro
             </Route>
             <Route element={<ProtectedRoute allowedRoles={["user"]} />}>
               <Route path="/upload" element={<UploadMedia />} />
